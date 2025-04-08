@@ -10,13 +10,13 @@ import java.util.List;
  * @author Estudiantes
  */
 public class Compra {
-    private int idCompra;
-    private Empleado empleado; // Relación con Empleado
+       private int idCompra;
+    private int empleado; // Relación con Empleado
     private Date fechaCompra;
     private float totalCompra;
     private List<DetalleCompra> detalles; // Relación con DetalleCompra
 
-    public Compra(int idCompra, Empleado empleado, Date fechaCompra, float totalCompra, List<DetalleCompra> detalles) {
+    public Compra(int idCompra, int empleado, Date fechaCompra, float totalCompra, List<DetalleCompra> detalles) {
         this.idCompra = idCompra;
         this.empleado = empleado;
         this.fechaCompra = fechaCompra;
@@ -35,11 +35,11 @@ public class Compra {
         this.idCompra = idCompra;
     }
 
-    public Empleado getEmpleado() {
+    public int getEmpleado() {
         return empleado;
     }
 
-    public void setEmpleado(Empleado empleado) {
+    public void setEmpleado(int empleado) {
         this.empleado = empleado;
     }
 

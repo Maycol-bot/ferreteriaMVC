@@ -8,6 +8,9 @@ import Util.ConexionDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author Estudiantes
@@ -22,19 +25,33 @@ public class CategoriaDAO {
             stmt.executeUpdate();
         }
     }
+    public List<Categoria> leerTodasCategorias() throws SQLException {
+        String sql = "SELECT * FROM Categorias";
+        List<Categoria> categorias = new ArrayList<>();
+
+        try (Connection c = ConexionDB.getConnection();
+            PreparedStatement stmt = c.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Categoria categoria = new Categoria();
+                categoria.setIdCategoria(rs.getInt("id_categoria"));
+                categoria.setNombreCategoria(rs.getString("nombre_categoria"));
+                categoria.setDescripcionCategoria(rs.getString("descripcion_categoria"));
+                categorias.add(categoria);
+            }
+        }
+        return categorias;
+    }
     
     public static void main(String[] args) {
-        try {
-            CategoriaDAO dao = new CategoriaDAO();
-            Categoria c1 = new Categoria();
-            c1.setNombreCategoria("Herramientas");
-            c1.setDescripcionCategoria("Categoria para herramientas de ferreteria");
-            dao.crearCategoria(c1);
-            System.err.println("Categoria creada con exito");     
-        } catch (SQLException e){
-            System.err.println("Error al crear categoria: " + e.getMessage());
-        }
-    
-    }
+            
+         
+            List<Categoria> categorias = dao.leerTodasCategorias();
+            System.out.println("\nLista de categorías:");
+            for (Categoria cat : categorias) {
+                System.out.println("ID: " + cat.getIdCategoria() + 
+                                    ", Nombre: " + cat.getNombreCategoria() + 
+                                    ", Descripción: " + cat.getDescripcionCategoria());
+            }
     
 }

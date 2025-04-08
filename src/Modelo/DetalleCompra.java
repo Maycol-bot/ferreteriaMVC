@@ -9,13 +9,13 @@ package Modelo;
  * @author Estudiantes
  */
 public class DetalleCompra {
-    private int idDetalleCompra;
-    private Compra compra; // Relación con Compra
-    private Producto producto; // Relación con Producto
+     private int idDetalleCompra;
+    private int compra; // Relación con Compra
+    private int producto; // Relación con Producto
     private int cantidad;
     private float precioUnitario; 
 
-    public DetalleCompra(int idDetalleCompra, Compra compra, Producto producto, int cantidad, float precioUnitario) {
+    public DetalleCompra(int idDetalleCompra, int compra, int producto, int cantidad, float precioUnitario) {
         this.idDetalleCompra = idDetalleCompra;
         this.compra = compra;
         this.producto = producto;
@@ -34,19 +34,19 @@ public class DetalleCompra {
         this.idDetalleCompra = idDetalleCompra;
     }
 
-    public Compra getCompra() {
+    public int getCompra() {
         return compra;
     }
 
-    public void setCompra(Compra compra) {
+    public void setCompra(int compra) {
         this.compra = compra;
     }
 
-    public Producto getProducto() {
+    public int getProducto() {
         return producto;
     }
 
-    public void setProducto(Producto producto) {
+    public void setProducto(int producto) {
         this.producto = producto;
     }
 
