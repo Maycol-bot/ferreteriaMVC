@@ -42,7 +42,7 @@ import java.util.List;
 }
    public List<Cliente> leerTodosClientes() throws SQLException {
         String sql = "SELECT * FROM Clientes";
-        List<Cliente> clientes = new ArrayList<>();
+        List<Cliente> Clientes = new ArrayList<>();
 
         try (Connection c = ConexionDB.getConnection();
              PreparedStatement stmt = c.prepareStatement(sql);
@@ -52,25 +52,51 @@ import java.util.List;
                 cliente.setIdCliente(rs.getInt("id_cliente"));
                 cliente.setPrimerNombre(rs.getString("primer_nombre"));
                 cliente.setSegundoNombre(rs.getString("segundo_nombre"));}}
+        return Clientes;
    }
-      
+      // Método para eliminar un cliente
+public void eliminarCliente(int idCliente) throws SQLException {
+    String sql = "DELETE FROM Clientes WHERE id_cliente = ?";
+    
+    try (Connection c = ConexionDB.getConnection();
+         PreparedStatement stmt = c.prepareStatement(sql)) {
+        stmt.setInt(1, idCliente);
+        stmt.executeUpdate();
+    }
+}
     public static void main(String[] args) {
     try {
-        ClienteDAO dao = new ClienteDAO();
-        Cliente c1 = new Cliente();
-        c1.setPrimerNombre("Juan");
-        c1.setSegundoNombre("Carlos");
-        c1.setPrimerApellido("Pérez");
-        c1.setSegundoApellido("Gómez");
-        c1.setCelular("12345678");
-        c1.setDireccion("Calle 123, Ciudad");
-        c1.setCedula("12345678901234");
-        dao.crearCliente(c1);
-        System.out.println("Cliente creado con éxito!");
+        // Actualizar un cliente
+        Cliente cliente = new Cliente();
+        cliente.setIdCliente(1); // ID existente
+        cliente.setPrimerNombre("Juan");
+        cliente.setSegundoNombre("Carlos");
+        cliente.setPrimerApellido("Pérez");
+        cliente.setSegundoApellido("Gómez");
+        cliente.setCelular("1234567890");
+        cliente.setDireccion("Calle 123");
+        cliente.setCedula("12345678");
+        dao.actualizarCliente(cliente);
+        System.out.println("Cliente actualizado.");
+    }
+}
+    // Eliminar un cliente
+        dao.eliminarClientes(2); // ID a eliminar
+        System.out.println("Cliente eliminado.");
+        
+        // Leer y mostrar todos los clientes para verificar
+        List<Cliente> clientes = dao.leerTodosClientes();
+        System.out.println("Lista de clientes:");
+        for (Cliente cli : clientes) {
+            System.out.println("ID: " + cli.getIdCliente() + 
+                               ", Nombre: " + cli.getPrimerNombre() + " " + cli.getSegundoNombre() + 
+                               " " + cli.getPrimerApellido() + " " + cli.getSegundoApellido() + 
+                               ", Celular: " + cli.getCelular() + 
+                               ", Dirección: " + cli.getDireccion() + 
+                               ", Cédula: " + cli.getCedula());
+        }
     } catch (SQLException e) {
         System.err.println("Error: " + e.getMessage());
     }
-}
-}
 
 
