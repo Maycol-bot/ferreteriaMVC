@@ -44,9 +44,10 @@ public class CategoriaDAO {
         return categorias;
     }
 
-    public static void main(String[] args) {
-
-        List<Categoria> categorias = DAO.leerTodasCategorias();
+    public static void main(String[] args) throws SQLException {
+        
+        CategoriaDAO dao = new CategoriaDAO();
+        List<Categoria> categorias = dao.leerTodasCategorias();
         System.out.println("\nLista de categorías:");
         for (Categoria cat : categorias) {
             System.out.println("ID: " + cat.getIdCategoria()
