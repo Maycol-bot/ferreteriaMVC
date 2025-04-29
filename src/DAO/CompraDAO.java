@@ -44,9 +44,28 @@ public class CompraDAO {
         return generatedId;
     }
 
-    public List<Compra> leerTodasCompras() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<Compra> leerTodasCompras() throws SQLException {
+    List<Compra> compras = new ArrayList<>();
+    String sql = "SELECT id_compra, id_empleado, fecha_compra, total_compra FROM Compras";
+    
+    try (Connection c = ConexionDB.getConnection();
+         PreparedStatement stmt = c.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+        
+        while (rs.next()) {
+            Compra compra = new Compra();
+            compra.setIdCompra(rs.getInt("id_compra"));
+            compra.setEmpleado(rs.getInt("id_empleado"));
+            compra.setFechaCompra(rs.getDate("fecha_compra"));
+            compra.setTotalCompra(rs.getFloat("total_compra"));
+            
+            compras.add(compra);
+        }
     }
+    
+    return compras;
+}
+
 
     // Método para actualizar una compra
 public void actualizarCompra(Compra compra) throws SQLException {
