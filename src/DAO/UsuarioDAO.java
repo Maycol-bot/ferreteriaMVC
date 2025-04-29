@@ -85,9 +85,27 @@ public static void main(String[] args) {
     }
 }
 
-    private List<Usuario> leerTodosUsuarios() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<Usuario> leerTodosUsuarios() throws SQLException {
+    List<Usuario> usuarios = new ArrayList<>();
+    String sql = "SELECT id_usuario, usuario, contraseña FROM Usuarios";
+    
+    try (Connection c = ConexionDB.getConnection();
+         PreparedStatement stmt = c.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+        
+        while (rs.next()) {
+            Usuario usu = new Usuario();
+            usu.setIdUsuario(rs.getInt("id_usuario"));
+            usu.setUsuario(rs.getString("usuario"));
+            usu.setContrasena(rs.getString("contraseña"));
+            
+            usuarios.add(usu);
+        }
     }
+    
+    return usuarios;
+}
+
 
 
 }

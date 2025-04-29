@@ -104,7 +104,27 @@ public static void main(String[] args) {
     }
 }
 
-    private List<Venta> leerTodasVentas() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<Venta> leerTodasVentas() throws SQLException {
+    List<Venta> ventas = new ArrayList<>();
+    String sql = "SELECT id_venta, id_cliente, id_empleado, fecha_venta, total_venta FROM Ventas";
+    
+    try (Connection c = ConexionDB.getConnection();
+         PreparedStatement stmt = c.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+        
+        while (rs.next()) {
+            Venta venta = new Venta();
+            venta.setIdVenta(rs.getInt("id_venta"));
+            venta.setIdCliente(rs.getInt("id_cliente"));
+            venta.setIdEmpleado(rs.getInt("id_empleado"));
+            venta.setFechaVenta(rs.getTimestamp("fecha_venta"));
+            venta.setTotalVenta(rs.getFloat("total_venta"));
+            
+            ventas.add(venta);
+        }
     }
+    
+    return ventas;
+}
+
 }

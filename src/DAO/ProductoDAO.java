@@ -105,7 +105,29 @@ public static void main(String[] args) {
     }
 }
 
-    private List<Producto> leerTodosProductos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<Producto> leerTodosProductos() throws SQLException {
+    List<Producto> productos = new ArrayList<>();
+    String sql = "SELECT id_producto, nombre_producto, descripcion_producto, id_categoria, precio_unitario, stock, imagen FROM Productos";
+    
+    try (Connection c = ConexionDB.getConnection();
+         PreparedStatement stmt = c.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+        
+        while (rs.next()) {
+            Producto prod = new Producto();
+            prod.setIdProducto(rs.getInt("id_producto"));
+            prod.setNombreProducto(rs.getString("nombre_producto"));
+            prod.setDescripcionProducto(rs.getString("descripcion_producto"));
+            prod.setIdcategoria(rs.getInt("id_categoria"));
+            prod.setPrecioUnitario(rs.getFloat("precio_unitario"));
+            prod.setStock(rs.getInt("stock"));
+            prod.setImagen(rs.getString("imagen"));
+            
+            productos.add(prod);
+        }
     }
+    
+    return productos;
+}
+
 }

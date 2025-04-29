@@ -97,7 +97,27 @@ public static void main(String[] args) {
     }
 }
 
-    private List<DetalleVenta> leerTodosDetallesVenta() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<DetalleVenta> leerTodosDetallesVenta() throws SQLException {
+    List<DetalleVenta> detalles = new ArrayList<>();
+    String sql = "SELECT id_detalle_venta, id_venta, id_producto, cantidad, precio_unitario FROM Detalles_Ventas";
+    
+    try (Connection c = ConexionDB.getConnection();
+         PreparedStatement stmt = c.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+        
+        while (rs.next()) {
+            DetalleVenta detalle = new DetalleVenta();
+            detalle.setDetalleVenta(rs.getInt("id_detalle_venta"));
+            detalle.setIdVenta(rs.getInt("id_venta"));
+            detalle.setIdProducto(rs.getInt("id_producto"));
+            detalle.setCantidad(rs.getInt("cantidad"));
+            detalle.setPrecioUnitario(rs.getFloat("precio_unitario"));
+            
+            detalles.add(detalle);
+        }
     }
+    
+    return detalles;
+}
+
 }

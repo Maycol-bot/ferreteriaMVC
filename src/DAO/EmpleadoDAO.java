@@ -109,7 +109,30 @@ public static void main(String[] args) {
     }
 }
 
-    private List<Empleado> leerTodosEmpleados() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+   public List<Empleado> leerTodosEmpleados() throws SQLException {
+    List<Empleado> empleados = new ArrayList<>();
+    String sql = "SELECT id_empleado, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, celular, cargo, fecha_contratacion FROM Empleados";
+    
+    try (Connection c = ConexionDB.getConnection();
+         PreparedStatement stmt = c.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+        
+        while (rs.next()) {
+            Empleado emp = new Empleado();
+            emp.setIdEmpleado(rs.getInt("id_empleado"));
+            emp.setPrimerNombre(rs.getString("primer_nombre"));
+            emp.setSegundoNombre(rs.getString("segundo_nombre"));
+            emp.setPrimerApellido(rs.getString("primer_apellido"));
+            emp.setSegundoApellido(rs.getString("segundo_apellido"));
+            emp.setCelular(rs.getString("celular"));
+            emp.setCargo(rs.getString("cargo"));
+            emp.setFechaContratacion(rs.getDate("fecha_contratacion"));
+            
+            empleados.add(emp);
+        }
     }
+    
+    return empleados;
+}
+
 }
