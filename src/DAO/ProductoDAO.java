@@ -39,20 +39,73 @@ public class ProductoDAO {
     }
 }
 
+// Método para actualizar un producto
+public void actualizarProducto(Producto producto) throws SQLException {
+    String sql = "UPDATE Productos SET nombre_producto = ?, descripcion_producto = ?, id_categoria = ?, precio_unitario = ?, stock = ?, imagen = ? WHERE id_producto = ?";
+    
+    try (Connection c = ConexionDB.getConnection();
+         PreparedStatement stmt = c.prepareStatement(sql)) {
+        stmt.setString(1, producto.getNombreProducto());
+        stmt.setString(2, producto.getDescripcionProducto());
+        stmt.setInt(3, producto.getIdcategoria());
+        stmt.setFloat(4, producto.getPrecioUnitario());
+        stmt.setInt(5, producto.getStock());
+        stmt.setString(6, producto.getImagen());
+        stmt.setInt(7, producto.getIdProducto());
+        stmt.executeUpdate();
+    }
+}
+
+// Método para eliminar un producto
+public void eliminarProducto(int idProducto) throws SQLException {
+    String sql = "DELETE FROM Productos WHERE id_producto = ?";
+    
+    try (Connection c = ConexionDB.getConnection();
+         PreparedStatement stmt = c.prepareStatement(sql)) {
+        stmt.setInt(1, idProducto);
+        stmt.executeUpdate();
+    }
+}
+
+// Método Main
 public static void main(String[] args) {
     try {
         ProductoDAO dao = new ProductoDAO();
-        Producto p1 = new Producto();
-        p1.setNombreProducto("Martillo");
-        p1.setDescripcionProducto("Martillo de acero");
-        p1.setIdProducto(1);
-        p1.setPrecioUnitario(15.99f);
-        p1.setStock(50);
-        p1.setImagen("ruta/imagen.jpg");
-        dao.crearProducto(p1);
-        System.out.println("Producto creado con éxito!");
+        
+        // Actualizar un producto
+        Producto producto = new Producto();
+        producto.setIdProducto(1); // ID existente
+        producto.setNombreProducto("Laptop Actualizada");
+        producto.setDescripcionProducto("Laptop de alta gama");
+        producto.setIdcategoria(1);
+        producto.setPrecioUnitario(1200.0f);
+        producto.setStock(50);
+        producto.setImagen("laptop.jpg");
+        dao.actualizarProducto(producto);
+        System.out.println("Producto actualizado.");
+        
+        // Eliminar un producto
+        dao.eliminarProducto(2); // ID a eliminar
+        System.out.println("Producto eliminado.");
+        
+        // Leer y mostrar todos los productos para verificar
+        List<Producto> productos = dao.leerTodosProductos();
+        System.out.println("Lista de productos:");
+        for (Producto prod : productos) {
+            System.out.println("ID: " + prod.getIdProducto() + 
+                               ", Nombre: " + prod.getNombreProducto() + 
+                               ", Descripción: " + prod.getDescripcionProducto() + 
+                               ", Categoría ID: " + prod.getIdcategoria() + 
+                               ", Precio: " + prod.getPrecioUnitario() + 
+                               ", Stock: " + prod.getStock() + 
+                               ", Imagen: " + prod.getImagen());
+        }
     } catch (SQLException e) {
         System.err.println("Error: " + e.getMessage());
     }
 }
+
+    private List<Producto> leerTodosProductos() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

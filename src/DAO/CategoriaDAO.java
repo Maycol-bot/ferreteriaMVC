@@ -18,6 +18,10 @@ import java.util.List;
  * @author Estudiantes
  */
 public class CategoriaDAO {
+   
+     
+    
+     
 
     public void crearCategoria(Categoria categoria) throws SQLException {
         String sql = "INSERT INTO Categoria (nombre_categoria, Descripcion_categoria)VALUES (?, ?)";
@@ -78,4 +82,7 @@ public class CategoriaDAO {
             stmt.executeUpdate();
         }
     }
+    
+   
+
 }

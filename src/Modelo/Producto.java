@@ -12,16 +12,16 @@ public class Producto {
     private int idProducto;
     private String nombreProducto;
     private String descripcionProducto;
-    private Categoria categoria; // Relación con Categoria
+    private int Idcategoria; // Relación con Categoria
     private float precioUnitario;
     private int stock;
     private String imagen;
 
-    public Producto(int idProducto, String nombreProducto, String descripcionProducto, Categoria categoria, float precioUnitario, int stock, String imagen) {
+    public Producto(int idProducto, String nombreProducto, String descripcionProducto, int Idcategoria, float precioUnitario, int stock, String imagen) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.descripcionProducto = descripcionProducto;
-        this.categoria = categoria;
+        this.Idcategoria = Idcategoria;
         this.precioUnitario = precioUnitario;
         this.stock = stock;
         this.imagen = imagen;
@@ -54,12 +54,12 @@ public class Producto {
         this.descripcionProducto = descripcionProducto;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
+    public int getIdcategoria() {
+        return Idcategoria;
     }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
+    public void setIdcategoria(int Idcategoria) {
+        this.Idcategoria = Idcategoria;
     }
 
     public float getPrecioUnitario() {
@@ -85,6 +85,8 @@ public class Producto {
     public void setImagen(String imagen) {
         this.imagen = imagen;
     }
-    
+
+   
+   
     
 }
