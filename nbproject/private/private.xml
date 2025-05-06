@@ -3,14 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Estudiantes/Videos/ferreteriaMVC/src/Controlador/ControladorDetalleVenta.java</file>
-            <file>file:/C:/Users/Estudiantes/Videos/ferreteriaMVC/src/Controlador/ControladorUsuario.java</file>
-            <file>file:/C:/Users/Estudiantes/Videos/ferreteriaMVC/src/Controlador/ControladorProducto.java</file>
-            <file>file:/C:/Users/Estudiantes/Videos/ferreteriaMVC/src/DAO/DetalleVentaDAO.java</file>
-            <file>file:/C:/Users/Estudiantes/Videos/ferreteriaMVC/src/DAO/EmpleadoDAO.java</file>
-            <file>file:/C:/Users/Estudiantes/Videos/ferreteriaMVC/src/Controlador/ControladorEmpleado.java</file>
-            <file>file:/C:/Users/Estudiantes/Videos/ferreteriaMVC/src/Controlador/ControladorVenta.java</file>
-            <file>file:/C:/Users/Estudiantes/Videos/ferreteriaMVC/src/Controlador/ControladorDetalleCompra.java</file>
+            <file>file:/C:/Users/Estudiantes/Music/ferreteriaMVC/src/Controlador/ControladorCategoria.java</file>
+            <file>file:/C:/Users/Estudiantes/Music/ferreteriaMVC/src/Vista/Vista_Categorias.java</file>
+            <file>file:/C:/Users/Estudiantes/Music/ferreteriaMVC/src/Vista/Vista_Principal.java</file>
+            <file>file:/C:/Users/Estudiantes/Music/ferreteriaMVC/src/Controlador/ControladorDetalleCompra.java</file>
         </group>
     </open-files>
 </project-private>

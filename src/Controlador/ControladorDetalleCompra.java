@@ -49,7 +49,7 @@ public class ControladorDetalleCompra {
     }
 
     // Método para obtener todas las compras
-    public List<Compra> obtenerTodasCompras() {
+    public List<Compra> obtenerTodasCompras() throws SQLException {
         return compraDAO.leerTodasCompras();
     }
 
@@ -79,7 +79,7 @@ public class ControladorDetalleCompra {
     }
 
     // Método main para pruebas
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
        CompraDAO compraDAO = new CompraDAO();
        DetalleCompraDAO detalleCompraDAO = new DetalleCompraDAO();
        ControladorDetalleCompra controlador = new ControladorDetalleCompra(compraDAO, detalleCompraDAO);
