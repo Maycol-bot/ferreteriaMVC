@@ -4,6 +4,11 @@
  */
 package Vista;
 
+import Controlador.ControladorCategoria;
+import DAO.CategoriaDAO;
+import Modelo.Categoria;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Estudiantes
@@ -13,10 +18,31 @@ public class VistaCategoria extends javax.swing.JPanel {
     /**
      * Creates new form VistaCategoria
      */
-    public VistaCategoria() {
-        initComponents();
-    }
+   private final ControladorCategoria controladorCategoria;
 
+    public VistaCategoria() {
+    initComponents();
+    CategoriaDAO categoriaDAO = new CategoriaDAO();
+    this.controladorCategoria = new ControladorCategoria(categoriaDAO);
+    cargarDatosTabla();
+}
+
+    private void cargarDatosTabla(){
+List<Categoria> categoria = controladorCategoria.obtenerTodasCategorias();
+        if(categoria != null){
+        DefaultTableModel model =(DefaultTableModel) tablaCategorias.getModel();
+        model.setRowCount(0);
+        
+        for (Categoria cat : categoria){
+        Object[] row ={
+        cat.getIdCategoria(),
+        cat.getNombreCategoria(),
+        cat.getDescripcionCategoria()
+        };
+        model.addRow(row);
+            }
+        }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,19 +52,165 @@ public class VistaCategoria extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        VistaCategora = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextNombre = new javax.swing.JTextField();
+        jTextDescripcion = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jTextBuscar = new javax.swing.JTextField();
+        jButtonGuardar = new javax.swing.JButton();
+        jButtonEliminar = new javax.swing.JButton();
+        jButtonActualizar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaCategorias = new javax.swing.JTable();
+
+        jLabel1.setText("Nombre controlador");
+
+        jLabel2.setText("Descripcion Categoria");
+
+        jLabel3.setText("Buscar");
+
+        jTextBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextBuscarActionPerformed(evt);
+            }
+        });
+
+        jButtonGuardar.setText("Grardar ");
+        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardarActionPerformed(evt);
+            }
+        });
+
+        jButtonEliminar.setText("Eliminar");
+
+        jButtonActualizar.setText("Actualizar");
+
+        tablaCategorias.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "ID Categoria", "Nombre", "Descripcion"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tablaCategorias);
+
+        javax.swing.GroupLayout VistaCategoraLayout = new javax.swing.GroupLayout(VistaCategora);
+        VistaCategora.setLayout(VistaCategoraLayout);
+        VistaCategoraLayout.setHorizontalGroup(
+            VistaCategoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(VistaCategoraLayout.createSequentialGroup()
+                .addGroup(VistaCategoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(VistaCategoraLayout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addGroup(VistaCategoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(VistaCategoraLayout.createSequentialGroup()
+                                .addGroup(VistaCategoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextNombre)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(73, 73, 73)
+                                .addGroup(VistaCategoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTextDescripcion)))))
+                    .addGroup(VistaCategoraLayout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(VistaCategoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 735, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(VistaCategoraLayout.createSequentialGroup()
+                                .addComponent(jTextBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(62, 62, 62)
+                                .addComponent(jButtonGuardar)
+                                .addGap(30, 30, 30)
+                                .addComponent(jButtonEliminar)
+                                .addGap(46, 46, 46)
+                                .addComponent(jButtonActualizar)))))
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+        VistaCategoraLayout.setVerticalGroup(
+            VistaCategoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(VistaCategoraLayout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addGroup(VistaCategoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGap(26, 26, 26)
+                .addGroup(VistaCategoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addGroup(VistaCategoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonGuardar)
+                    .addComponent(jButtonEliminar)
+                    .addComponent(jButtonActualizar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(VistaCategora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(VistaCategora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonGuardarActionPerformed
+
+    private void jTextBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextBuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel VistaCategora;
+    private javax.swing.JButton jButtonActualizar;
+    private javax.swing.JButton jButtonEliminar;
+    private javax.swing.JButton jButtonGuardar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextBuscar;
+    private javax.swing.JTextField jTextDescripcion;
+    private javax.swing.JTextField jTextNombre;
+    private javax.swing.JTable tablaCategorias;
     // End of variables declaration//GEN-END:variables
 }
