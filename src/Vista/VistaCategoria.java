@@ -72,9 +72,19 @@ List<Categoria> categoria = controladorCategoria.obtenerTodasCategorias();
 
         jLabel3.setText("Buscar");
 
+        jTextBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextBuscarMouseClicked(evt);
+            }
+        });
         jTextBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextBuscarActionPerformed(evt);
+            }
+        });
+        jTextBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextBuscarKeyTyped(evt);
             }
         });
 
@@ -233,7 +243,7 @@ List<Categoria> categoria = controladorCategoria.obtenerTodasCategorias();
         controladorCategoria.eliminarCategoria(IdCategoria);
         cargarDatosTabla();
         }else {
-          javax.swing.JOptionPane.showMessageDialog(this, "Seleccione una fila a elimina", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);}
+          javax.swing.JOptionPane.showMessageDialog(this, "Seleccione una fila a eliminar", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);}
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
     private void tablaCategoriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCategoriasMouseClicked
@@ -268,6 +278,35 @@ List<Categoria> categoria = controladorCategoria.obtenerTodasCategorias();
         }else {
           javax.swing.JOptionPane.showMessageDialog(this, "por favor, llene todos los campos", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);}
     }//GEN-LAST:event_jButtonActualizarActionPerformed
+
+    private void jTextBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextBuscarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextBuscarMouseClicked
+
+    private void jTextBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextBuscarKeyTyped
+        // TODO add your handling code here:
+        String textoBusqueda = jTextBuscar.getText().trim().toLowerCase();
+        List<Categoria> categoria = controladorCategoria.obtenerTodasCategorias();
+        
+        DefaultTableModel modelo = (DefaultTableModel) tablaCategorias.getModel();
+        modelo.setRowCount(0);
+        
+        if (categoria != null) {
+          for(Categoria cat : categoria){  
+        if (textoBusqueda.isEmpty() ||
+                cat.getNombreCategoria().toLowerCase().contains(textoBusqueda)||
+                cat.getDescripcionCategoria().toLowerCase().contains(textoBusqueda)){
+                Object[] fila = {
+                    cat.getIdCategoria(),
+                     cat.getNombreCategoria(),
+                    cat.getDescripcionCategoria(),
+                    };
+                modelo.addRow(fila);
+                }
+                
+            }
+        }
+    }//GEN-LAST:event_jTextBuscarKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
