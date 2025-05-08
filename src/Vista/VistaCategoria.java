@@ -19,6 +19,7 @@ public class VistaCategoria extends javax.swing.JPanel {
      * Creates new form VistaCategoria
      */
    private final ControladorCategoria controladorCategoria;
+   private Integer idCategoriaSeleccionada = null;
 
     public VistaCategoria() {
     initComponents();
@@ -85,8 +86,18 @@ List<Categoria> categoria = controladorCategoria.obtenerTodasCategorias();
         });
 
         jButtonEliminar.setText("Eliminar");
+        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarActionPerformed(evt);
+            }
+        });
 
         jButtonActualizar.setText("Actualizar");
+        jButtonActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonActualizarActionPerformed(evt);
+            }
+        });
 
         tablaCategorias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -112,6 +123,11 @@ List<Categoria> categoria = controladorCategoria.obtenerTodasCategorias();
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tablaCategorias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaCategoriasMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tablaCategorias);
@@ -192,11 +208,66 @@ List<Categoria> categoria = controladorCategoria.obtenerTodasCategorias();
 
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
         // TODO add your handling code here:
+        String nombre= jTextNombre.getText();
+        String descripcion = jTextDescripcion.getText();
+        
+        if (!nombre.isEmpty()&& !descripcion.isEmpty() ){
+        controladorCategoria.crearCategoria(nombre, descripcion);
+        cargarDatosTabla();
+        jTextNombre.setText("");
+        jTextDescripcion.setText("");
+        } else {
+          javax.swing.JOptionPane.showMessageDialog(this, "Por favor, llene todos los campos", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
     private void jTextBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextBuscarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextBuscarActionPerformed
+
+    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
+        // TODO add your handling code here:
+        int filaSeleccionada = tablaCategorias.getSelectedRow();
+        if (filaSeleccionada != -1){
+        int IdCategoria = (int) tablaCategorias.getValueAt(filaSeleccionada, 0);
+        controladorCategoria.eliminarCategoria(IdCategoria);
+        cargarDatosTabla();
+        }else {
+          javax.swing.JOptionPane.showMessageDialog(this, "Seleccione una fila a elimina", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);}
+    }//GEN-LAST:event_jButtonEliminarActionPerformed
+
+    private void tablaCategoriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCategoriasMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2){
+        int filaSeleccionada = tablaCategorias.getSelectedRow();
+        
+        if (filaSeleccionada != -1) {
+        idCategoriaSeleccionada = (int) tablaCategorias.getValueAt(filaSeleccionada, 0);
+        String nombre =(String) tablaCategorias.getValueAt(filaSeleccionada, 0);
+        String descripcion = (String) tablaCategorias.getValueAt(filaSeleccionada, 0);
+        
+        jTextNombre.setText(nombre);
+        jTextDescripcion.setText(descripcion);
+        
+        jButtonEliminar.setEnabled(false);
+        jButtonGuardar.setEnabled(false);
+            }
+        }
+    }//GEN-LAST:event_tablaCategoriasMouseClicked
+
+    private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
+        // TODO add your handling code here:
+        String nombre = jTextNombre.getText();
+        String descripcion = jTextDescripcion.getText();
+        
+        if (!nombre.isEmpty()&& !descripcion.isEmpty()){
+        controladorCategoria.crearCategoria(nombre, descripcion);
+        cargarDatosTabla();
+        jTextNombre.setText(nombre);
+        jTextDescripcion.setText(descripcion);
+        }else {
+          javax.swing.JOptionPane.showMessageDialog(this, "por favor, llene todos los campos", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);}
+    }//GEN-LAST:event_jButtonActualizarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
