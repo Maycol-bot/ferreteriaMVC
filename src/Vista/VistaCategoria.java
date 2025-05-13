@@ -253,8 +253,8 @@ List<Categoria> categoria = controladorCategoria.obtenerTodasCategorias();
         
         if (filaSeleccionada != -1) {
         idCategoriaSeleccionada = (int) tablaCategorias.getValueAt(filaSeleccionada, 0);
-        String nombre =(String) tablaCategorias.getValueAt(filaSeleccionada, 0);
-        String descripcion = (String) tablaCategorias.getValueAt(filaSeleccionada, 0);
+        String nombre =(String) tablaCategorias.getValueAt(filaSeleccionada, 1);
+        String descripcion = (String) tablaCategorias.getValueAt(filaSeleccionada, 2);
         
         jTextNombre.setText(nombre);
         jTextDescripcion.setText(descripcion);
