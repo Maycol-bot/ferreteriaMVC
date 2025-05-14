@@ -110,6 +110,12 @@ private void limpiar() {
 
         jLabelSegundoNombre.setText("Segundo Nombre");
 
+        jTextBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextBuscarActionPerformed(evt);
+            }
+        });
+
         jTableEmpleado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -300,10 +306,11 @@ private void limpiar() {
             cargarDatosTabla();
             } catch (Exception e){
                 javax.swing.JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-            } else {
+            }
+            }else {
                 javax.swing.JOptionPane.showMessageDialog(this,"Llene los campos requeridos.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
                     }
-        }
+        
     }//GEN-LAST:event_accionBotonGuardar
 
     private void accionBotonEliminar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accionBotonEliminar
@@ -357,7 +364,54 @@ private void limpiar() {
         String Celular = jTextCelular.getText();
         String Cargo = (String) jComboCargo.getSelectedItem();
         Date Fecha = this.selectorFechaContratacion.getDate();
+        java.sql.Date fechaContratacion = new java.sql.Date(Fecha.getTime());
+        
+        if (idEmpleadoSeleccionado != null && ! PrimerNombre.isEmpty() && !PrimerApellido.isEmpty() && !Celular.isEmpty()){
+            try {
+            controladorEmpleado.actualizarEmpleado(idEmpleadoSeleccionado, PrimerNombre, SegundoNombre, PrimerApellido,
+                    SegundoApellido, Celular, Cargo, Fecha);
+            cargarDatosTabla();
+            limpiar();
+            } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error" + e.getMessage(),"Error",javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+        javax.swing.JOptionPane.showMessageDialog(this, "Llene los campos obligatorios.", "Error",javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_accionBotonActualizar
+
+    private void jTextBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextBuscarActionPerformed
+        // TODO add your handling code here:
+        String textoBusqueda = jTextBuscar. getText().trim().toLowerCase();
+        List<Empleado> empleado = controladorEmpleado.obtenerTodosEmpleados();
+        
+        DefaultTableModel modelo = (DefaultTableModel) jTableEmpleado.getModel();
+        modelo.setRowCount(0);
+        
+        if (empleado != null) {
+        for (Empleado emp : empleado) {
+            if (textoBusqueda.isEmpty() ||
+                    emp.getPrimerNombre().toLowerCase().contains(textoBusqueda)||
+                    (emp.getSegundoNombre() != null && emp.getSegundoNombre().toLowerCase().contains(textoBusqueda))||
+                    emp.getPrimerApellido().toLowerCase().contains(textoBusqueda)||
+                    (emp.getSegundoApellido() != null && emp.getSegundoApellido().toLowerCase().contains(textoBusqueda))||
+                    emp.getCelular().toLowerCase().contains(textoBusqueda)||
+                    emp.getCargo().toLowerCase().contains(textoBusqueda)){
+            Object[] fila = {
+            emp.getIdEmpleado(),
+                emp.getPrimerNombre(),
+                emp.getSegundoNombre(),
+                emp.getPrimerApellido(),
+                emp.getSegundoApellido(),
+                emp.getCelular(),
+                emp.getCargo(),
+                emp.getFechaContratacion()
+                    };
+            modelo.addRow(fila);
+                }
+            }
+        }
+    }//GEN-LAST:event_jTextBuscarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
