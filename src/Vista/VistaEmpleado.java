@@ -19,9 +19,12 @@ private final ControladorEmpleado controladorEmpleado;
     /**
      * Creates new form VistaEmpleado
      */
+    private Integer idEmpleadoSeleccionado = null;
     public VistaEmpleado() {
         initComponents();
         this.controladorEmpleado = new ControladorEmpleado();
+        selectorFechaContratacion.setDate(new Date());
+        ((JTextField) selectorFechaContratacion.getDateEditor().getUiComponent()).setEditable(false);
         cargarDatosTabla();
     }
 private void cargarDatosTabla() {
@@ -46,7 +49,18 @@ private void cargarDatosTabla() {
     }
 }
 
-
+private void limpiar() {
+    jTextPrimerNombre.setText("");
+    jTextSegundoNombre.setText("");
+    jTextPrimerApellido.setText("");
+    jTextSegundoApellido.setText("");
+    jTextCelular.setText("");
+    jTextBuscar.setText("");
+    idEmpleadoSeleccionado = null;
+    selectorFechaContratacion.setDate(new Date());
+    jButtonEliminar.setEnabled(true);
+    jButtonGuardar.setEnabled(true);
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -70,14 +84,15 @@ private void cargarDatosTabla() {
         jTextPrimerApellido = new javax.swing.JTextField();
         jTextSegundoApellido = new javax.swing.JTextField();
         jTextCelular = new javax.swing.JTextField();
-        jTextPrimerNombre5 = new javax.swing.JTextField();
+        jTextBuscar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableEmpleado = new javax.swing.JTable();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboCargo = new javax.swing.JComboBox<>();
         jButtonLimpiar = new javax.swing.JButton();
         jButtonGuardar = new javax.swing.JButton();
         jButtonEliminar = new javax.swing.JButton();
         jButtonActualizar = new javax.swing.JButton();
+        selectorFechaContratacion = new com.toedter.calendar.JDateChooser();
 
         jLabelPrimerNombre.setText("Primer Nombre");
 
@@ -114,12 +129,17 @@ private void cargarDatosTabla() {
                 return types [columnIndex];
             }
         });
+        jTableEmpleado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableEmpleadoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableEmpleado);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vendedor", "Administrador" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        jComboCargo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vendedor", "Administrador" }));
+        jComboCargo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                jComboCargoActionPerformed(evt);
             }
         });
 
@@ -133,8 +153,18 @@ private void cargarDatosTabla() {
         });
 
         jButtonEliminar.setText("Eliminar");
+        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                accionBotonEliminar(evt);
+            }
+        });
 
-        jButtonActualizar.setText("jButtonAtualizar");
+        jButtonActualizar.setText("Actualizar");
+        jButtonActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                accionBotonActualizar(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -168,16 +198,18 @@ private void cargarDatosTabla() {
                             .addComponent(jLabel5))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(23, 23, 23)
                                 .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
-                                .addComponent(jLabel2))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                                .addComponent(jLabel2))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboCargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(selectorFechaContratacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jTextPrimerNombre5, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(53, 53, 53)
                         .addComponent(jButtonLimpiar)
                         .addGap(28, 28, 28)
@@ -186,7 +218,7 @@ private void cargarDatosTabla() {
                         .addComponent(jButtonEliminar)
                         .addGap(39, 39, 39)
                         .addComponent(jButtonActualizar)))
-                .addGap(14, 14, 14))
+                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
@@ -205,18 +237,20 @@ private void cargarDatosTabla() {
                     .addComponent(jLabel4)
                     .addComponent(jLabel2))
                 .addGap(33, 33, 33)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextPrimerNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextSegundoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextPrimerApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextSegundoApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextPrimerNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextSegundoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextPrimerApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextSegundoApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboCargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(selectorFechaContratacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextPrimerNombre5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonLimpiar)
                     .addComponent(jButtonGuardar)
                     .addComponent(jButtonEliminar)
@@ -244,13 +278,86 @@ private void cargarDatosTabla() {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void jComboCargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboCargoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_jComboCargoActionPerformed
 
     private void accionBotonGuardar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accionBotonGuardar
         // TODO add your handling code here:
+        Date fecha = this.selectorFechaContratacion.getDate();
+        java.sql.Date fechaContratacion = new java.sql.Date(fecha.getTime());
+        String PrimerNombre = jTextPrimerNombre.getText();
+        String SegundoNombre = jTextSegundoNombre.getText();
+        String PrimerApellido = jTextPrimerApellido.getText();
+        String segundoApellido = jTextSegundoApellido.getText();
+        String Celular = jTextCelular.getText();
+        String Cargo = (String)jComboCargo.getSelectedItem();
+        
+        if (!PrimerNombre.isEmpty() && !PrimerApellido.isEmpty() && !Celular.isEmpty() && ! Cargo.isEmpty()){
+        try {
+            controladorEmpleado.crearEmpleado(PrimerNombre, SegundoNombre, PrimerApellido, segundoApellido, Celular, Cargo, fecha);
+            limpiar();
+            cargarDatosTabla();
+            } catch (Exception e){
+                javax.swing.JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this,"Llene los campos requeridos.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    }
+        }
     }//GEN-LAST:event_accionBotonGuardar
+
+    private void accionBotonEliminar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accionBotonEliminar
+        // TODO add your handling code here:
+        int filaSeleccionada = jTableEmpleado.getSelectedRow();
+        if (filaSeleccionada != -1){
+            int idEmpleado = (int) jTableEmpleado.getValueAt(filaSeleccionada, 0);
+            controladorEmpleado.eliminarEmpleado(idEmpleado);
+            cargarDatosTabla();
+        }else {
+        javax.swing.JOptionPane.showMessageDialog(this,"Seleccionar fila a eliminar", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_accionBotonEliminar
+
+    private void jTableEmpleadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableEmpleadoMouseClicked
+        // TODO add your handling code here:
+        
+        if (evt.getClickCount() == 2) {
+            int filaSeleccionada = jTableEmpleado.getSelectedRow();
+            if (filaSeleccionada != -1){
+            idEmpleadoSeleccionado = (int) jTableEmpleado.getValueAt(filaSeleccionada, 0);
+            String PrimerNombre = (String) jTableEmpleado.getValueAt(filaSeleccionada, 1);
+            String SegundoNombre = (String) jTableEmpleado.getValueAt(filaSeleccionada, 2);
+            String PrimerApellido = (String) jTableEmpleado.getValueAt(filaSeleccionada, 3);
+            String SegundoApellido = (String) jTableEmpleado.getValueAt(filaSeleccionada, 4);
+            String Celular = (String) jTableEmpleado.getValueAt(filaSeleccionada, 5);
+            String Cargo = (String) jTableEmpleado.getValueAt(filaSeleccionada, 6);
+            Date Fecha = (Date) jTableEmpleado.getValueAt(filaSeleccionada, 7);
+            
+            jTextPrimerNombre.setText(PrimerNombre);
+            jTextSegundoNombre.setText(SegundoNombre != null ? SegundoNombre : "");
+            jTextPrimerApellido.setText(PrimerApellido);
+            jTextSegundoApellido.setText(SegundoApellido != null ? SegundoApellido : "");
+            jTextCelular.setText(Celular);
+            jComboCargo.setSelectedItem(Cargo != null ? Cargo : "Seleccionar");
+            
+            selectorFechaContratacion.setDate(Fecha);
+            
+            jButtonEliminar.setEnabled(false);
+            jButtonGuardar.setEnabled(false);
+            }
+        }
+    }//GEN-LAST:event_jTableEmpleadoMouseClicked
+
+    private void accionBotonActualizar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accionBotonActualizar
+        // TODO add your handling code here:
+        String PrimerNombre = jTextPrimerNombre.getText();
+        String SegundoNombre = jTextSegundoNombre.getText();
+        String PrimerApellido = jTextPrimerApellido.getText();
+        String SegundoApellido = jTextSegundoApellido.getText();
+        String Celular = jTextCelular.getText();
+        String Cargo = (String) jComboCargo.getSelectedItem();
+        Date Fecha = this.selectorFechaContratacion.getDate();
+    }//GEN-LAST:event_accionBotonActualizar
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -258,7 +365,7 @@ private void cargarDatosTabla() {
     private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonGuardar;
     private javax.swing.JButton jButtonLimpiar;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboCargo;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -270,11 +377,12 @@ private void cargarDatosTabla() {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableEmpleado;
+    private javax.swing.JTextField jTextBuscar;
     private javax.swing.JTextField jTextCelular;
     private javax.swing.JTextField jTextPrimerApellido;
     private javax.swing.JTextField jTextPrimerNombre;
-    private javax.swing.JTextField jTextPrimerNombre5;
     private javax.swing.JTextField jTextSegundoApellido;
     private javax.swing.JTextField jTextSegundoNombre;
+    private com.toedter.calendar.JDateChooser selectorFechaContratacion;
     // End of variables declaration//GEN-END:variables
 }

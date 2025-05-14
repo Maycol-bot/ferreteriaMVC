@@ -73,20 +73,22 @@
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="83" max="32767" attributes="0"/>
+                                  <EmptySpace pref="91" max="32767" attributes="0"/>
                                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="jComboCargo" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="selectorFechaContratacion" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTextPrimerNombre5" min="-2" pref="196" max="-2" attributes="0"/>
+                          <Component id="jTextBuscar" min="-2" pref="196" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                           <Component id="jButtonLimpiar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
@@ -97,7 +99,7 @@
                           <Component id="jButtonActualizar" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
@@ -120,19 +122,22 @@
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jTextPrimerNombre" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextSegundoNombre" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextPrimerApellido" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextSegundoApellido" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextCelular" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jTextPrimerNombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextSegundoNombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextPrimerApellido" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextSegundoApellido" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextCelular" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jComboCargo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="selectorFechaContratacion" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jTextPrimerNombre5" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTextBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButtonLimpiar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButtonGuardar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButtonEliminar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -196,7 +201,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="jTextCelular">
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextPrimerNombre5">
+        <Component class="javax.swing.JTextField" name="jTextBuscar">
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
           <AuxValues>
@@ -220,10 +225,13 @@
                   </Table>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableEmpleadoMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JComboBox" name="jComboBox1">
+        <Component class="javax.swing.JComboBox" name="jComboCargo">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="2">
@@ -233,7 +241,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboCargoActionPerformed"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -256,11 +264,19 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Eliminar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="accionBotonEliminar"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonActualizar">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jButtonAtualizar"/>
+            <Property name="text" type="java.lang.String" value="Actualizar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="accionBotonActualizar"/>
+          </Events>
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="selectorFechaContratacion">
         </Component>
       </SubComponents>
     </Container>
