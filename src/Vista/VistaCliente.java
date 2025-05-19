@@ -150,15 +150,35 @@ private final ControladorCliente controladorCliente;
             }
         });
         jTableCliente.setToolTipText("");
+        jTableCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableClienteMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTableCliente);
 
         jLabel9.setText("Cedula");
 
         jButtonGuardar.setText("Guardar");
+        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActionButtonGuardar(evt);
+            }
+        });
 
         jButtonActualizar.setText("Actualizar");
+        jButtonActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                accionBotonActualizar(evt);
+            }
+        });
 
         jButtonEliminar.setText("Eliminar");
+        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                accionBotonEliminar(evt);
+            }
+        });
 
         jButtonLimpiar.setText("Limpiar");
 
@@ -169,6 +189,7 @@ private final ControladorCliente controladorCliente;
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,11 +242,7 @@ private final ControladorCliente controladorCliente;
                                 .addComponent(jButtonActualizar)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButtonEliminar)))))
-                .addContainerGap(57, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,9 +274,9 @@ private final ControladorCliente controladorCliente;
                     .addComponent(jButtonActualizar)
                     .addComponent(jButtonEliminar)
                     .addComponent(jButtonLimpiar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                .addGap(23, 23, 23))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -313,6 +330,95 @@ private final ControladorCliente controladorCliente;
             }
         }
     }//GEN-LAST:event_jTextBuscarActionPerformed
+
+    private void ActionButtonGuardar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActionButtonGuardar
+        // TODO add your handling code here:
+            String PrimerNombre = jTextPrimerNombre.getText();
+        String SegundoNombre = jTextSegundoNombre.getText();
+        String PrimerApellido = jTextPrimerApellido.getText();
+        String SegundoApellido = jTextSegundoApellido.getText();
+        String Celular = jTextCelular.getText();
+        String Direccion = jTextDireccion.getText();
+        String Cedula = jTextCedula.getText();
+        
+        if (IdClienteSeleccionado != null && !PrimerNombre.isEmpty() && !PrimerApellido.isEmpty() && !Celular.isEmpty()){
+            try {
+            controladorCliente.actualizarCliente(IdClienteSeleccionado, PrimerNombre, SegundoNombre, PrimerApellido,
+                    SegundoApellido, Celular, Direccion, Cedula);
+            cargarDatosTabla();
+            limpiar();
+            } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error" + e.getMessage(),"Error",javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+        javax.swing.JOptionPane.showMessageDialog(this, "Llene los campos obligatorios.", "Error",javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_ActionButtonGuardar
+
+    private void accionBotonEliminar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accionBotonEliminar
+        // TODO add your handling code here:
+        int filaSeleccionada = jTableCliente.getSelectedRow();
+        if (filaSeleccionada != -1){
+            int idCliente = (int) jTableCliente.getValueAt(filaSeleccionada, 0);
+            controladorCliente.eliminarCliente(idCliente);
+            cargarDatosTabla();
+        }else {
+        javax.swing.JOptionPane.showMessageDialog(this,"Seleccionar fila a eliminar", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_accionBotonEliminar
+
+    private void jTableClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableClienteMouseClicked
+        // TODO add your handling code here:
+            if (evt.getClickCount() == 2) {
+            int filaSeleccionada = jTableCliente.getSelectedRow();
+            if (filaSeleccionada != -1){
+            IdClienteSeleccionado = (int) jTableCliente.getValueAt(filaSeleccionada, 0);
+            String PrimerNombre = (String) jTableCliente.getValueAt(filaSeleccionada, 1);
+            String SegundoNombre = (String) jTableCliente.getValueAt(filaSeleccionada, 2);
+            String PrimerApellido = (String) jTableCliente.getValueAt(filaSeleccionada, 3);
+            String SegundoApellido = (String) jTableCliente.getValueAt(filaSeleccionada, 4);
+            String Direccion = (String) jTableCliente.getValueAt(filaSeleccionada, 5);
+            String Celular = (String) jTableCliente.getValueAt(filaSeleccionada, 6);
+            String Cedula = (String) jTableCliente.getValueAt(filaSeleccionada, 7);
+            
+            jTextPrimerNombre.setText(PrimerNombre);
+            jTextSegundoNombre.setText(SegundoNombre != null ? SegundoNombre : "");
+            jTextPrimerApellido.setText(PrimerApellido);
+            jTextSegundoApellido.setText(SegundoApellido != null ? SegundoApellido : "");
+            jTextDireccion.setText(Direccion != null ? Direccion : "");jTextCelular.setText(Celular);
+            jTextDireccion.setText(Direccion != null ? Direccion : "");
+            jTextCedula.setText(Cedula);
+            
+            
+            jButtonEliminar.setEnabled(false);
+            jButtonGuardar.setEnabled(false);
+            }
+        }
+    }//GEN-LAST:event_jTableClienteMouseClicked
+
+    private void accionBotonActualizar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accionBotonActualizar
+        // TODO add your handling code here:
+        String PrimerNombre = jTextPrimerNombre.getText();
+        String SegundoNombre = jTextSegundoNombre.getText();
+        String PrimerApellido = jTextPrimerApellido.getText();
+        String SegundoApellido = jTextSegundoApellido.getText();
+        String Direccion = jTextDireccion.getText();
+        String Celular = jTextCelular.getText();
+        String Cedula = jTextCedula.getText();
+        
+        if (IdClienteSeleccionado != null && ! PrimerNombre.isEmpty() && !PrimerApellido.isEmpty() && !Celular.isEmpty()){
+            try {
+            controladorCliente.actualizarCliente(IdClienteSeleccionado, PrimerNombre, SegundoNombre, PrimerApellido,
+                    SegundoApellido, Direccion, Celular, Cedula);
+            cargarDatosTabla();
+            limpiar();
+            } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error" + e.getMessage(),"Error",javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+        javax.swing.JOptionPane.showMessageDialog(this, "Llene los campos obligatorios.", "Error",javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_accionBotonActualizar
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
