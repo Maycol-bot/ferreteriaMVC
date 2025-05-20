@@ -23,8 +23,7 @@ public class VistaCategoria extends javax.swing.JPanel {
 
     public VistaCategoria() {
     initComponents();
-    CategoriaDAO categoriaDAO = new CategoriaDAO();
-    this.controladorCategoria = new ControladorCategoria(categoriaDAO);
+    this.controladorCategoria = new ControladorCategoria();
     cargarDatosTabla();
 }
 

@@ -9,8 +9,8 @@ import javax.swing.JOptionPane;
 public class ControladorCategoria {
     private final CategoriaDAO CategoriaDAO;
 
-    public ControladorCategoria(CategoriaDAO CategoriaDAO) {
-        this.CategoriaDAO = CategoriaDAO;
+    public ControladorCategoria() {
+        this.CategoriaDAO = new CategoriaDAO();
     }
     
     
@@ -58,17 +58,6 @@ public class ControladorCategoria {
             JOptionPane.showMessageDialog(null, "Categoría eliminada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al eliminar la categoría: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    public static void main(String[] args) {
-        CategoriaDAO dao = new CategoriaDAO();
-        ControladorCategoria controlador = new ControladorCategoria(dao);
-        // Probar crear categoría
-        controlador.crearCategoria("Jardinería", "Productos para el jardin.");
-        // Probar leer categorías
-        List<Categoria> categorias = controlador.obtenerTodasCategorias();
-        for (Categoria cat : categorias) {
-            System.out.println("ID: " + cat.getIdCategoria() + ", Nombre: " + cat.getNombreCategoria());
         }
     }
 }

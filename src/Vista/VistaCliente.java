@@ -144,9 +144,16 @@ private final ControladorCliente controladorCliente;
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jTableCliente.setToolTipText("");
@@ -181,6 +188,11 @@ private final ControladorCliente controladorCliente;
         });
 
         jButtonLimpiar.setText("Limpiar");
+        jButtonLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -333,7 +345,7 @@ private final ControladorCliente controladorCliente;
 
     private void ActionButtonGuardar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActionButtonGuardar
         // TODO add your handling code here:
-            String PrimerNombre = jTextPrimerNombre.getText();
+        String PrimerNombre = jTextPrimerNombre.getText();
         String SegundoNombre = jTextSegundoNombre.getText();
         String PrimerApellido = jTextPrimerApellido.getText();
         String SegundoApellido = jTextSegundoApellido.getText();
@@ -341,10 +353,9 @@ private final ControladorCliente controladorCliente;
         String Direccion = jTextDireccion.getText();
         String Cedula = jTextCedula.getText();
         
-        if (IdClienteSeleccionado != null && !PrimerNombre.isEmpty() && !PrimerApellido.isEmpty() && !Celular.isEmpty()){
+        if (!PrimerNombre.isEmpty() && !PrimerApellido.isEmpty() && !Celular.isEmpty()){
             try {
-            controladorCliente.actualizarCliente(IdClienteSeleccionado, PrimerNombre, SegundoNombre, PrimerApellido,
-                    SegundoApellido, Celular, Direccion, Cedula);
+             controladorCliente.crearCliente(PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, Direccion, Celular, Cedula);
             cargarDatosTabla();
             limpiar();
             } catch (Exception e) {
@@ -419,6 +430,11 @@ private final ControladorCliente controladorCliente;
         javax.swing.JOptionPane.showMessageDialog(this, "Llene los campos obligatorios.", "Error",javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_accionBotonActualizar
+
+    private void jButtonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimpiarActionPerformed
+        // TODO add your handling code here:
+        limpiar();
+    }//GEN-LAST:event_jButtonLimpiarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

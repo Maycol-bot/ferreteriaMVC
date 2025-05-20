@@ -78,7 +78,30 @@ public static void main(String[] args) {
 }
 
     public void crearCliente(Cliente cliente) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+             String sql = """
+        INSERT INTO Clientes (
+            primer_nombre, 
+            segundo_nombre, 
+            primer_apellido, 
+            segundo_apellido, 
+            celular, 
+            direccion, 
+            cedula
+        ) VALUES (?, ?, ?, ?, ?, ?, ?)""";
+    
+    try (Connection c = ConexionDB.getConnection();
+         PreparedStatement stmt = c.prepareStatement(sql)) {
+        stmt.setString(1, cliente.getPrimerNombre());
+        stmt.setString(2, cliente.getSegundoNombre());
+        stmt.setString(3, cliente.getPrimerApellido());
+        stmt.setString(4, cliente.getSegundoApellido());
+        stmt.setString(5, cliente.getCelular());
+        stmt.setString(6, cliente.getDireccion());
+        stmt.setString(7, cliente.getCedula());
+        stmt.executeUpdate();
+    }    catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+         }
     }
 
    // Método para actualizar un cliente
