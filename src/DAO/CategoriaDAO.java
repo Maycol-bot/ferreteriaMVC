@@ -24,7 +24,7 @@ public class CategoriaDAO {
      
 
     public void crearCategoria(Categoria categoria) throws SQLException {
-        String sql = "INSERT INTO Categoria (nombre_categoria, Descripcion_categoria)VALUES (?, ?)";
+        String sql = "INSERT INTO Categorias (nombre_categoria, Descripcion_categoria)VALUES (?, ?)";
         try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
             stmt.setString(1, categoria.getNombreCategoria());
             stmt.setString(2, categoria.getDescripcionCategoria());

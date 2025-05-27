@@ -18,7 +18,7 @@ public class Vista_Principal extends javax.swing.JFrame {
         Opciones.addTab("Categorias", new VistaCategoria());
         Opciones.addTab("Empleado", new VistaEmpleado());
         Opciones.addTab("Cliente", new VistaCliente());
-        Opciones.addTab("Producto", new VistaProductos());
+        Opciones.addTab("Productos", new VistaProductos());
     }
 
     /**

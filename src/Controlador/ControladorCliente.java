@@ -7,14 +7,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-public class ControladorCliente {
-     private final ClienteDAO clienteDAO;
 
-    public ControladorCliente(ClienteDAO clienteDAO) {
-        this.clienteDAO = clienteDAO;
+public class ControladorCliente {
+    private final ClienteDAO clienteDAO;
+      
+    public ControladorCliente() {
+        this.clienteDAO = new ClienteDAO();
     }
 
-   
+    
 
     // Método para crear un nuevo cliente
     public void crearCliente(String primerNombre, String segundoNombre, String primerApellido,
@@ -40,6 +41,16 @@ public class ControladorCliente {
             return null;
         }
     }
+    
+    public Cliente obtenerClientePorId(int idCliente) {
+        try {
+            return clienteDAO.obtenerClientePorId(idCliente);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener el cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+
 
     // Método para actualizar un cliente existente
     public void actualizarCliente(int idCliente, String primerNombre, String segundoNombre, String primerApellido,
@@ -70,7 +81,7 @@ public class ControladorCliente {
     // Método main para pruebas
     public static void main(String[] args) {
             ClienteDAO dao = new ClienteDAO();
-        ControladorCliente controlador = new ControladorCliente(dao);
+        ControladorCliente controlador = new ControladorCliente();
 
         // Crear un cliente
         controlador.crearCliente("Juan", "Antonio", "Pérez", "Gómez", "12345678", "Calle 123", "1234567890");

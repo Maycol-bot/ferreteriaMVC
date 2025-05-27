@@ -1,4 +1,6 @@
+
 package Controlador;
+
 import DAO.ProductoDAO;
 import Modelo.Producto;
 import java.sql.SQLException;
@@ -7,17 +9,17 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author eliab
+ * @author Maryi
  */
-public class ControladorProducto {
+public class ProductoControlador {
 
     private final ProductoDAO productoDAO;
 
-    public ControladorProducto() {
+    public ProductoControlador() {
         this.productoDAO = new ProductoDAO();
     }
-
     // Método para crear un nuevo producto
+
     public void crearProducto(String nombreProducto, String descripcionProducto, int idCategoria,
             float precioUnitario, int stock, String imagen) {
         try {
@@ -35,6 +37,17 @@ public class ControladorProducto {
         }
     }
 
+    
+     public Producto obtenerProductoPorId(int idProducto) {
+        try {
+            return productoDAO.obtenerProductoPorId(idProducto);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+
+    
     // Método para obtener todos los productos
     public List<Producto> obtenerTodosProductos() {
         try {
@@ -76,7 +89,7 @@ public class ControladorProducto {
 
     // Método main para pruebas
     public static void main(String[] args) {
-        ControladorProducto controlador = new ControladorProducto();
+        ProductoControlador controlador = new ProductoControlador();
 
         // Crear un producto
         controlador.crearProducto("Laptop", "Laptop de alta gama", 1, 1500.99f, 10, "ruta/laptop.jpg");
@@ -99,3 +112,4 @@ public class ControladorProducto {
         controlador.eliminarProducto(1);
     }
 }
+
