@@ -45,7 +45,7 @@
                   <Group type="102" attributes="0">
                       <Component id="textCantidad" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jButton1Guardar" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonAgregar" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="17" max="32767" attributes="0"/>
@@ -71,16 +71,16 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="textBuscar" min="-2" pref="246" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="jButton3Eliminar2" min="-2" pref="118" max="-2" attributes="0"/>
+                          <Component id="jButtonQuitarDetalle" min="-2" pref="118" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="jButton3Eliminar3" min="-2" pref="118" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                      <Component id="jButton3Eliminar" min="-2" pref="118" max="-2" attributes="0"/>
+                      <Component id="jButton1Guardar" min="-2" pref="118" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                      <Component id="jButton3Eliminar1" min="-2" pref="118" max="-2" attributes="0"/>
+                      <Component id="jButtonEliminar" min="-2" pref="118" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                       <Component id="jButton3Eliminar4" min="-2" pref="118" max="-2" attributes="0"/>
                   </Group>
@@ -107,7 +107,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="textPrecio" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="textCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton1Guardar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonAgregar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Component id="comboProductos" max="32767" attributes="0"/>
@@ -132,15 +132,15 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jButton3Eliminar2" min="-2" pref="34" max="-2" attributes="0"/>
+                      <Component id="jButtonQuitarDetalle" min="-2" pref="34" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane3" min="-2" pref="162" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButton3Eliminar" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
-                  <Component id="jButton3Eliminar1" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                  <Component id="jButton1Guardar" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                  <Component id="jButtonEliminar" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
                   <Component id="jButton3Eliminar3" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
                   <Component id="jButton3Eliminar4" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
               </Group>
@@ -163,20 +163,20 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textCantidadActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1Guardar">
+    <Component class="javax.swing.JButton" name="jButtonAgregar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Guardar"/>
+        <Property name="text" type="java.lang.String" value="Agregar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1GuardarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="accionBotonAgregar"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton3Eliminar">
+    <Component class="javax.swing.JButton" name="jButton1Guardar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Guardar Venta"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3EliminarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="accionBotonGuardar"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
@@ -187,6 +187,7 @@
     <Component class="javax.swing.JTextField" name="textBuscar">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textBuscarActionPerformed"/>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="textBuscarKeyTyped"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
@@ -312,23 +313,26 @@
               </Table>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableVentaMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="jButton3Eliminar1">
+    <Component class="javax.swing.JButton" name="jButtonEliminar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Eliminar Venta"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3Eliminar1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="accionBotonEliminar"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton3Eliminar2">
+    <Component class="javax.swing.JButton" name="jButtonQuitarDetalle">
       <Properties>
         <Property name="text" type="java.lang.String" value="Quitar Detalle"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3Eliminar2ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="accionBotonQuitarDetalle"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton3Eliminar3">
@@ -336,7 +340,7 @@
         <Property name="text" type="java.lang.String" value="Limpiar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3Eliminar3ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="accionBotonLimpiar"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton3Eliminar4">
@@ -344,7 +348,7 @@
         <Property name="text" type="java.lang.String" value="Actualizar Venta"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3Eliminar4ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="accionBotonActualizar"/>
       </Events>
     </Component>
   </SubComponents>

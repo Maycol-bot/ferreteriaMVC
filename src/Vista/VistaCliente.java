@@ -24,7 +24,7 @@ private final ControladorCliente controladorCliente;
     public VistaCliente() {
         initComponents();
          ClienteDAO clienteDAO = new ClienteDAO();
-        this.controladorCliente = new ControladorCliente(clienteDAO);
+        this.controladorCliente = new ControladorCliente();
         cargarDatosTabla();
     }
 
