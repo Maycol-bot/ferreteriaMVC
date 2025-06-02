@@ -16,9 +16,9 @@ public class ControladorDetalleCompra {
       private final CompraDAO compraDAO;
     private final DetalleCompraDAO detalleCompraDAO;
 
-    public ControladorDetalleCompra(CompraDAO compraDAO, DetalleCompraDAO detalleCompraDAO) {
-        this.compraDAO = compraDAO;
-        this.detalleCompraDAO = detalleCompraDAO;
+    public ControladorDetalleCompra() {
+        this.compraDAO = new CompraDAO();
+        this.detalleCompraDAO = new DetalleCompraDAO();
     }
 
     
@@ -49,8 +49,13 @@ public class ControladorDetalleCompra {
     }
 
     // Método para obtener todas las compras
-    public List<Compra> obtenerTodasCompras() throws SQLException {
-        return compraDAO.leerTodasCompras();
+    public List<Compra> obtenerTodasDetallesCompras() throws SQLException {
+            try {
+            return compraDAO.leerTodasCompras();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer las compras: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
     }
 
     // Método para actualizar una compra existente
@@ -79,10 +84,8 @@ public class ControladorDetalleCompra {
     }
 
     // Método main para pruebas
-    public static void main(String[] args) throws SQLException {
-       CompraDAO compraDAO = new CompraDAO();
-       DetalleCompraDAO detalleCompraDAO = new DetalleCompraDAO();
-       ControladorDetalleCompra controlador = new ControladorDetalleCompra(compraDAO, detalleCompraDAO);
+   /* public static void main(String[] args) throws SQLException {
+       CompraControlador controlador = new CompraControlador();
 
 
         // Crear una lista de detalles de compra
@@ -112,6 +115,6 @@ public class ControladorDetalleCompra {
 
         // Eliminar una compra
         controlador.eliminarCompra(1);
-    }
+    }*/
 }
 
