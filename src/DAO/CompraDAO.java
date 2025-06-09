@@ -73,7 +73,7 @@ public void actualizarCompra(Compra compra) throws SQLException {
     
     try (Connection c = ConexionDB.getConnection();
          PreparedStatement stmt = c.prepareStatement(sql)) {
-        stmt.setInt(1, compra.getIdEmpleado());
+        stmt.setInt(1, compra.getEmpleado());
         stmt.setDate(2, new java.sql.Date(compra.getFechaCompra().getTime()));
         stmt.setFloat(3, compra.getTotalCompra());
         stmt.setInt(4, compra.getIdCompra());
@@ -115,7 +115,7 @@ public static void main(String[] args) {
         System.out.println("Lista de compras:");
         for (Compra comp : compras) {
             System.out.println("ID: " + comp.getIdCompra() + 
-                               ", Empleado ID: " + comp.getIdEmpleado() + 
+                               ", Empleado ID: " + comp.getEmpleado() + 
                                ", Fecha: " + comp.getFechaCompra() + 
                                ", Total: " + comp.getTotalCompra());
         }
