@@ -5,12 +5,19 @@
 package Vista;
 
 import Controlador.ControladorCliente;
+import Modelo.Categoria;
 import Modelo.Cliente;
-import DAO.ClienteDAO;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.UnitValue;
+import java.awt.FileDialog;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import java.util.Date;
-import javax.swing.JTextField;
 /**
  *
  * @author Estudiantes
@@ -23,7 +30,7 @@ private final ControladorCliente controladorCliente;
     private Integer IdClienteSeleccionado = null;
     public VistaCliente() {
         initComponents();
-         ClienteDAO clienteDAO = new ClienteDAO();
+         
         this.controladorCliente = new ControladorCliente();
         cargarDatosTabla();
     }
@@ -96,6 +103,7 @@ private final ControladorCliente controladorCliente;
         jButtonActualizar = new javax.swing.JButton();
         jButtonEliminar = new javax.swing.JButton();
         jButtonLimpiar = new javax.swing.JButton();
+        btnGenerarReporte = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -194,6 +202,13 @@ private final ControladorCliente controladorCliente;
             }
         });
 
+        btnGenerarReporte.setText("Generar Reporte");
+        btnGenerarReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarReporteaccionBotonActualizar(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -255,6 +270,10 @@ private final ControladorCliente controladorCliente;
                                 .addGap(18, 18, 18)
                                 .addComponent(jButtonEliminar)))))
                 .addContainerGap(37, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnGenerarReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(269, 269, 269))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,9 +305,11 @@ private final ControladorCliente controladorCliente;
                     .addComponent(jButtonActualizar)
                     .addComponent(jButtonEliminar)
                     .addComponent(jButtonLimpiar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                .addGap(28, 28, 28)
+                .addComponent(btnGenerarReporte)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -436,8 +457,87 @@ private final ControladorCliente controladorCliente;
         limpiar();
     }//GEN-LAST:event_jButtonLimpiarActionPerformed
 
+    private void btnGenerarReporteaccionBotonActualizar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteaccionBotonActualizar
+        try {
+            //Lógica para generar el reporte
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                "Error al generar el PDF: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        FileDialog dialogoArchivo = new FileDialog((java.awt.Frame) null, "Guardar Reporte PDF", FileDialog.SAVE);
+        dialogoArchivo.setFile("Reporte de Cliente.pdf");
+        dialogoArchivo.setVisible(true);
+
+        String ruta = dialogoArchivo.getDirectory();
+        String nombreArchivo = dialogoArchivo.getFile();
+
+        if (ruta == null || nombreArchivo == null) {
+            JOptionPane.showMessageDialog(this, "Operación cancelada.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            return;
+
+        }
+        String rutaCompleta = ruta + nombreArchivo;
+
+        try {
+            PdfWriter escritor = new PdfWriter(rutaCompleta);
+            PdfDocument pdf = new PdfDocument(escritor);
+            Document documento = new Document(pdf);
+
+            documento.add(new Paragraph("Reporte de Cliente")
+                .setTextAlignment(TextAlignment.CENTER)
+                .setFontSize(20)
+                .setBold());
+
+            documento.add(new Paragraph("Fecha: " + new java.util.Date().toString())
+                .setTextAlignment(TextAlignment.CENTER)
+                .setFontSize(12));
+
+            Table tabla = new Table(8);
+            tabla.setWidth(UnitValue.createPercentValue(100));
+            tabla.addHeaderCell("ID Cliente").setBold();
+            tabla.addHeaderCell("PrimerNombre").setBold();
+            tabla.addHeaderCell("SegundoNombre").setBold();
+            tabla.addHeaderCell("PrimerApellido").setBold();
+            tabla.addHeaderCell("SegundoApellido").setBold();
+            tabla.addHeaderCell("Celular").setBold();
+            tabla.addHeaderCell("Direccion").setBold();
+            tabla.addHeaderCell("Cedula").setBold();
+
+            List<Cliente> listaClientes = controladorCliente.obtenerTodosClientes();
+            if (listaClientes != null) {
+                for (Cliente cliente : listaClientes) {
+                    tabla.addCell(String.valueOf(cliente.getIdCliente()));
+                    tabla.addCell(cliente.getPrimerNombre());
+                    tabla.addCell(cliente.getSegundoNombre());
+                    tabla.addCell(cliente.getPrimerApellido());
+                    tabla.addCell(cliente.getSegundoApellido());
+                    tabla.addCell(cliente.getCelular());
+                    tabla.addCell(cliente.getDireccion());
+                    tabla.addCell(cliente.getCedula());
+
+                }
+            }
+
+            documento.add(tabla);
+            documento.add(new Paragraph("Notas: Reporte generado automaticamente desde el sistema.")
+                .setFontSize(10)
+                .setMarginTop(20));
+
+            documento.close();
+            JOptionPane.showMessageDialog(this, "Reportar PDF generado con exito en:" + rutaCompleta,
+                "Exito", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception e) {
+            System.out.println("Problemas: " + e);
+
+        }
+    }//GEN-LAST:event_btnGenerarReporteaccionBotonActualizar
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGenerarReporte;
     private javax.swing.JButton jButtonActualizar;
     private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonGuardar;

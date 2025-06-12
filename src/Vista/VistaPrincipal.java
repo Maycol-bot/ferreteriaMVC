@@ -7,7 +7,7 @@ import Vista.VistaCompra;
 import Vista.VistaConsultasDinamicas;
 import Vista.VistaEmpleado;
 import Vista.VistaProductos;
-import Vista.VistaInicioSesion;
+
 import Vista.VistaVentas;
 
 /**
@@ -25,7 +25,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
         Opciones.addTab("Productos", new VistaProductos());
         Opciones.addTab("Clientes", new VistaCliente());
         Opciones.addTab("Compras", new VistaCompra());
-        Opciones.addTab("Usuarios", new VistaInicioSesion());
         Opciones.addTab("Empleados", new VistaEmpleado());
         Opciones.addTab("Ventas", new VistaVentas());
         Opciones.addTab("Consultas con IA", new VistaConsultasDinamicas());
